@@ -1,4 +1,4 @@
-/* İzmir Ağaç Atlası — temel PWA servis çalışanı */
+/* Türkiye Ağaç Atlası — temel PWA servis çalışanı */
 const CACHE = "agac-atlasi-v1";
 const STATIC_ASSETS = ["/", "/manifest.webmanifest"];
 

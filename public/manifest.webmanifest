@@ -1,7 +1,7 @@
 {
-  "name": "İzmir Ağaç Atlası",
+  "name": "Türkiye Ağaç Atlası",
   "short_name": "Ağaç Atlası",
-  "description": "İzmir biyoçeşitlilik haritası ve topluluk bilimi platformu",
+  "description": "Türkiye biyoçeşitlilik haritası ve topluluk bilimi platformu",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f7f5ef",

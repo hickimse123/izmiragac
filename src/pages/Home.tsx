@@ -10,7 +10,7 @@ import {
   Users,
   MapPin,
 } from "lucide-react";
-import { ALL_SPECIES, HOTSPOTS, DISTRICTS, IZMIR_CENTER } from "@contracts/species";
+import { ALL_SPECIES, HOTSPOTS, DISTRICTS, TURKEY_CENTER } from "@contracts/species";
 import { useLang } from "@/lib/i18n";
 import { trpc } from "@/providers/trpc";
 import SpeciesCard from "@/components/SpeciesCard";
@@ -96,7 +96,7 @@ export default function Home() {
 
           {/* Hero mini harita */}
           <div className="animate-fade-up relative h-[380px] overflow-hidden rounded-[28px] border border-border shadow-2xl lg:h-[460px]" style={{ animationDelay: "120ms" }}>
-            <AtlasMap interactive={false} showCommunity={false} zoom={9} />
+            <AtlasMap interactive={false} showCommunity={false} zoom={6} />
             <div className="glass absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl px-4 py-3 shadow-lg">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -137,7 +137,7 @@ export default function Home() {
         <div className="mb-6 flex items-end justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-400">
-              {IZMIR_CENTER[0].toFixed(1)}°K · Ege
+              {TURKEY_CENTER[0].toFixed(1)}°K · Anadolu
             </p>
             <h2 className="font-serif-d mt-1 text-2xl font-bold sm:text-3xl">{t("home.hotspots")}</h2>
           </div>
@@ -192,7 +192,7 @@ export default function Home() {
             Sahada bir ağaç mı gördünüz?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed opacity-90">
-            Fotoğrafını çekin, konumuyla birlikte haritaya ekleyin. Her gözlem, İzmir'in
+            Fotoğrafını çekin, konumuyla birlikte haritaya ekleyin. Her gözlem, Türkiye'nin
             biyoçeşitlilik envanterini birlikte büyütmemizi sağlıyor.
           </p>
           <Link
@@ -205,7 +205,7 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-border/70 py-8 text-center text-xs text-muted-foreground">
-        İzmir Ağaç Atlası — {t("footer.mission")} · {new Date().getFullYear()}
+        Türkiye Ağaç Atlası — {t("footer.mission")} · {new Date().getFullYear()}
       </footer>
     </div>
   );

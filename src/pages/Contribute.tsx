@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { Camera, MapPin, CheckCircle2, Loader2, ImagePlus } from "lucide-react";
-import AtlasMap, { IZMIR_CENTER } from "@/components/map/AtlasMap";
+import AtlasMap, { TURKEY_CENTER } from "@/components/map/AtlasMap";
 import { ALL_SPECIES, DISTRICTS } from "@contracts/species";
 import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/lib/i18n";
@@ -204,6 +204,7 @@ export default function Contribute() {
                   alt="Örnek tür fotoğrafı"
                   className="h-16 w-16 rounded-xl object-cover"
                   loading="lazy"
+          onError={(e) => { e.currentTarget.style.display = "none"; }}
                 />
                 <p className="text-[11px] leading-snug text-muted-foreground">
                   <span className="font-semibold text-foreground">Örnek görsel:</span>{" "}
@@ -297,8 +298,8 @@ export default function Contribute() {
               <AtlasMap
                 showCatalogue={false}
                 showCommunity={false}
-                center={IZMIR_CENTER}
-                zoom={9}
+                center={TURKEY_CENTER}
+                zoom={6}
                 onPick={(lat, lng) => setPoint([lat, lng])}
                 pickPoint={point}
               />

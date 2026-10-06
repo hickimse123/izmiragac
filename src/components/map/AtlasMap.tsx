@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import {
   ALL_SPECIES,
   CATEGORY_META,
-  IZMIR_CENTER,
+  TURKEY_CENTER,
   getSpeciesById,
   type Category,
 } from "@contracts/species";
@@ -91,7 +91,7 @@ function ObservationPopup({ obs }: { obs: any }) {
       )}
       {obs.note && <p className="mt-1 line-clamp-2 text-xs">{obs.note}</p>}
       <div className="mt-2 flex items-center justify-between text-[11px] text-stone-500 dark:text-stone-400">
-        <span>{obs.district ?? "İzmir"}</span>
+        <span>{obs.district ?? "Türkiye"}</span>
         <span>{obs.authorName ?? "Gözlemci"}</span>
       </div>
     </div>
@@ -112,7 +112,7 @@ export interface AtlasMapProps {
   interactive?: boolean;
 }
 
-export default function AtlasMap({  center = IZMIR_CENTER,
+export default function AtlasMap({  center = TURKEY_CENTER,
   zoom = 9,
   className,
   showCatalogue = true,
@@ -203,4 +203,4 @@ export default function AtlasMap({  center = IZMIR_CENTER,
   );
 }
 
-export { IZMIR_CENTER };
+export { TURKEY_CENTER };

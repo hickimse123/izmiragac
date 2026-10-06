@@ -1,4 +1,4 @@
-# İzmir Ağaç Atlası — Kurulum ve Yayınlama Rehberi
+# Türkiye Ağaç Atlası — Kurulum ve Yayınlama Rehberi
 
 Yığın: **Vercel** (site + API) · **TiDB Cloud Starter** (MySQL) · **Vercel Blob** (fotoğraflar) · **Google Gemini** (tür tanıma)
 
@@ -9,7 +9,7 @@ Yığın: **Vercel** (site + API) · **TiDB Cloud Starter** (MySQL) · **Vercel 
 
 ## 1. Projeyi yerelde hazırla
 ```bash
-unzip Izmir_Agac_Atlasi_Vercel.zip && cd agac-atlasi
+unzip Turkiye_Agac_Atlasi_Vercel.zip && cd agac-atlasi
 npm install          # .npmrc içindeki legacy-peer-deps=true otomatik uygulanır
 cp .env.example .env
 ```
@@ -19,7 +19,7 @@ openssl rand -base64 48
 ```
 
 ## 2. Veritabanı — TiDB Cloud Starter
-1. https://tidbcloud.com → kayıt ol → **Create Resource / Create Cluster** → **Starter** (ücretsiz) → bölge seç (Frankfurt/eu-central-1 İzmir'e yakındır) → Create.
+1. https://tidbcloud.com → kayıt ol → **Create Resource / Create Cluster** → **Starter** (ücretsiz) → bölge seç (Frankfurt/eu-central-1 Türkiye'ye yakındır) → Create.
 2. Oluşunca adına tıkla → sağ üstte **Connect**. Bağlantı türü **Public**.
 3. **Generate Password** ile şifre oluştur (şifre belirlemeden bağlanılamaz).
 4. Ekrandaki bilgilerden `DATABASE_URL` oluştur:

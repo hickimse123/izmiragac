@@ -118,7 +118,7 @@ export default function Login() {
         {/* Başlık katmanı */}
         <div className="absolute inset-x-0 top-[14%] text-center px-6" style={{ transform: "translateZ(-80px) translateY(calc(var(--login-p, 0) * -120px))" }}>
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/25 bg-emerald-950/40 px-4 py-1.5 text-xs tracking-widest uppercase text-emerald-200/90 backdrop-blur">
-            <TreePine className="h-3.5 w-3.5" /> İzmir Ağaç Atlası
+            <TreePine className="h-3.5 w-3.5" /> Türkiye Ağaç Atlası
           </div>
           <h1
             className="mt-6 text-4xl sm:text-6xl font-bold leading-tight"
@@ -272,7 +272,7 @@ export default function Login() {
         </section>
 
         <footer className="relative z-10 pb-10 text-center text-xs text-emerald-100/40">
-          İzmir Ağaç Atlası — topluluk destekli kent doğası arşivi
+          Türkiye Ağaç Atlası — topluluk destekli doğa arşivi
         </footer>
       </div>
     </div>

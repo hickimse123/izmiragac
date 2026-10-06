@@ -294,7 +294,7 @@ export default function Dashboard() {
                       {sp?.name ?? o.customName ?? "Bilinmeyen tür"}
                     </p>
                     <p className="text-[11px] text-muted-foreground">
-                      {o.district ?? "İzmir"} · {new Date(o.createdAt).toLocaleDateString("tr-TR")}
+                      {o.district ?? "Türkiye"} · {new Date(o.createdAt).toLocaleDateString("tr-TR")}
                     </p>
                   </div>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground">

@@ -183,7 +183,7 @@ export default function Layout() {
               <TreePine className="h-5 w-5" />
             </span>
             <span className="hidden flex-col leading-tight sm:flex">
-              <span className="text-[15px] font-bold tracking-tight">İzmir Ağaç Atlası</span>
+              <span className="text-[15px] font-bold tracking-tight">Türkiye Ağaç Atlası</span>
               <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
                 Kent Biyoçeşitliliği
               </span>

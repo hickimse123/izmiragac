@@ -30,7 +30,7 @@ export const CATEGORY_META: Record<
   meyve: { label: 'Meyve & Ekonomik', color: '#b0762a', soft: '#f8efdd' },
 };
 
-export const IZMIR_CENTER: [number, number] = [38.53, 27.35];
+export const TURKEY_CENTER: [number, number] = [39.0, 35.2];
 
 export const SPECIES: Species[] = [
   {
@@ -41,7 +41,7 @@ export const SPECIES: Species[] = [
     category: 'ibreli',
     height: '20–35 m',
     bloom: 'Şubat – Nisan (tozlaşma)',
-    tag: 'İzmir’in en yaygın ağacı',
+    tag: 'Kıyıların en yaygın çamı',
     desc: 'İzmir’in kıyı bandının karakteristik ağacıdır. Kırmızımsı-kahverengi kabuğu ve güneşe eğimli tepesiyle tanınır. Ege kıyılarında deniz seviyesinden 1.200 metreye kadar yayılış gösterir ve Akdeniz ikliminin kurak yazlarına son derece dayanıklıdır.',
     benefits: [
       'Eğimli arazilerde erozyonu önleyen güçlü kök sistemi',
@@ -264,7 +264,7 @@ export const SPECIES: Species[] = [
     category: 'meyve',
     height: '5–15 m',
     bloom: 'Nisan – Mayıs',
-    tag: 'İzmir’in ölümsüz ağacı',
+    tag: 'Ölümsüz ağaç',
     desc: 'İzmir kırsalının ekonomik ve kültürel temelidir. Urla’daki Klazomenai’de bulunan MÖ 6. yüzyıla ait zeytinyağı işliği, Anadolu’nun bilinen en eski zeytinyağı üretim tesisidir. Binde yılı aşkın yaşa ulaşan anıt zeytinler bölgede hâlâ meyve verir.',
     benefits: [
       'Zeytinyağı: kalp sağlığı ve Akdeniz diyetinin merkezi',
@@ -696,15 +696,18 @@ export interface District {
 }
 
 export const HOTSPOTS: District[] = [
-  { name: 'Bozdağ', coords: [38.36, 28.09] },
+  { name: 'Kazdağları', coords: [39.7, 26.85] },
+  { name: 'Uludağ', coords: [40.07, 29.13] },
+  { name: 'Kaçkar Dağları', coords: [40.84, 41.15] },
+  { name: 'Köyceğiz Sığla Ormanı', coords: [36.97, 28.68] },
+  { name: 'Datça Yarımadası', coords: [36.75, 27.68] },
+  { name: 'Yedigöller', coords: [40.9, 31.75] },
+  { name: 'Istranca Ormanları', coords: [41.75, 27.8] },
+  { name: 'Köprülü Kanyon', coords: [37.2, 31.2] },
+  { name: 'Sarıkamış', coords: [40.33, 42.58] },
+  { name: 'Bozdağ (İzmir)', coords: [38.36, 28.09] },
   { name: 'Kozak Yaylası', coords: [39.2, 27.1] },
-  { name: 'Karaburun Yarımadası', coords: [38.64, 26.52] },
-  { name: 'Çeşme Yarımadası', coords: [38.31, 26.3] },
   { name: 'Gediz Deltası', coords: [38.6, 26.9] },
-  { name: 'Nif Dağı', coords: [38.38, 27.37] },
-  { name: 'Yamanlar Dağı', coords: [38.53, 27.22] },
-  { name: 'Bakırçay Havzası', coords: [39.13, 27.2] },
-  { name: 'Küçük Menderes Havzası', coords: [38.15, 27.7] },
 ];
 
 
@@ -1548,14 +1551,17 @@ export const TURKIYE_SPECIES: Species[] = [
   },
 ];
 
-export const ALL_SPECIES: Species[] = [...SPECIES, ...EXTRA_SPECIES, ...TURKIYE_SPECIES];
+import { MORE_SPECIES } from './species-more';
+import { MORE_ACADEMIC } from './academic-more';
+
+export const ALL_SPECIES: Species[] = [...SPECIES, ...EXTRA_SPECIES, ...TURKIYE_SPECIES, ...MORE_SPECIES];
 
 export function getSpeciesById(id: string): Species | undefined {
   return ALL_SPECIES.find((s) => s.id === id);
 }
 
 export function getAcademic(id: string): Academic | undefined {
-  return ACADEMIC[id];
+  return ACADEMIC[id] ?? MORE_ACADEMIC[id];
 }
 
 /* İlçe listesi (filtreleme için) */

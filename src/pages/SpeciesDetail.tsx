@@ -37,7 +37,8 @@ function ObservationCard({ obs }: { obs: any }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
       {photo?.url ? (
-        <img src={photo.url} alt="" className="h-44 w-full object-cover" loading="lazy" />
+        <img src={photo.url} alt="" className="h-44 w-full object-cover" loading="lazy"
+          onError={(e) => { e.currentTarget.style.display = "none"; }} />
       ) : (
         <div className="flex h-44 w-full items-center justify-center bg-accent">
           <Camera className="h-8 w-8 text-accent-foreground/50" />
@@ -47,7 +48,7 @@ function ObservationCard({ obs }: { obs: any }) {
         {obs.note && <p className="line-clamp-2 text-[13px] leading-relaxed">{obs.note}</p>}
         <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
-            <MapPin className="h-3.5 w-3.5" /> {obs.district ?? "İzmir"}
+            <MapPin className="h-3.5 w-3.5" /> {obs.district ?? "Türkiye"}
           </span>
           <span>{obs.authorName ?? "Gözlemci"}</span>
         </div>
@@ -116,6 +117,7 @@ export default function SpeciesDetail() {
         <img
           src={`/species/${species.id}.jpg`}
           alt={species.name}
+          onError={(e) => { e.currentTarget.style.display = "none"; }}
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-black/25" />

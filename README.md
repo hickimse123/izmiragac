@@ -1,6 +1,6 @@
-# İzmir Ağaç Atlası
+# Türkiye Ağaç Atlası
 
-İzmir'in ağaç türlerini harita üzerinde keşfetme, gözlem paylaşma ve yapay zekâ ile tür tanıma uygulaması.
+Türkiye'nin ağaç türlerini harita üzerinde keşfetme, gözlem paylaşma ve yapay zekâ ile tür tanıma uygulaması.
 
 **Yığın:** React + Vite · Hono + tRPC · Drizzle ORM · TiDB Cloud (MySQL) · Vercel Blob · Google Gemini · Vercel
 
