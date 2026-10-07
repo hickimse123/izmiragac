@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate, Link } from "react-router";
 import { toast } from "sonner";
-import { useSpecies } from "@/providers/species";
+import { getSpeciesById } from "@contracts/species";
 
 /** Dosyayı JPEG'e küçültüp base64 döndür */
 async function fileToBase64(file: File, maxW: number): Promise<string> {
@@ -46,7 +46,6 @@ async function fileToBase64(file: File, maxW: number): Promise<string> {
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading } = useAuth({ redirectOnUnauthenticated: true });
   const { t } = useLang();
-  const { getSpeciesById } = useSpecies();
   const navigate = useNavigate();
   const utils = trpc.useUtils();
 
@@ -59,18 +58,6 @@ export default function Dashboard() {
   const { data: mine } = trpc.stats.mine.useQuery(undefined, { enabled: isAuthenticated });
   const { data: notifications } = trpc.notifications.list.useQuery(undefined, { enabled: isAuthenticated });
   const { data: myObs } = trpc.observations.list.useQuery({ limit: 100 }, { enabled: isAuthenticated });
-
-  const autoImport = trpc.species.autoImport.useMutation({
-    onSuccess: async (r) => {
-      await utils.species.list.invalidate();
-      toast.success(
-        r.added > 0
-          ? `${r.added} yeni tür eklendi (${r.withPhoto} fotoğraflı): ${r.names.slice(0, 4).join(", ")}${r.names.length > 4 ? "…" : ""}`
-          : "Yeni tür bulunamadı; tekrar deneyin.",
-      );
-    },
-    onError: (e) => toast.error(e.message),
-  });
 
   const updateProfile = trpc.auth.updateProfile.useMutation({
     onSuccess: async () => {
@@ -121,19 +108,6 @@ export default function Dashboard() {
 
   return (
     <div className="mx-auto max-w-4xl px-0 pb-24 sm:px-6 lg:pb-12">
-      {user?.role === "admin" && (
-        <div className="mx-4 mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-600/30 bg-emerald-50 p-4 dark:bg-emerald-950/30 sm:mx-0">
-          <div>
-            <p className="text-sm font-semibold">Yönetici: tür kataloğunu büyüt</p>
-            <p className="text-xs text-muted-foreground">
-              GBIF, iNaturalist ve Vikipedi'den fotoğraflı birkaç yeni tür ekler (~30 sn sürer). İstediğin kadar tıklayabilirsin.
-            </p>
-          </div>
-          <Button onClick={() => autoImport.mutate()} disabled={autoImport.isPending}>
-            {autoImport.isPending ? "Türler çekiliyor…" : "Yeni türleri çek"}
-          </Button>
-        </div>
-      )}
       {/* ---------- Kapak + avatar (sosyal medya tarzı) ---------- */}
       <div className="relative">
         <div className="relative h-44 overflow-hidden bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-800 sm:mt-6 sm:rounded-3xl">

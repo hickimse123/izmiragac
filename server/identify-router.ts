@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { generateObject, APICallError } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createRouter, authedQuery } from "./middleware.js";
-import { getAllSpecies } from "./lib/species-store.js";
+import { ALL_SPECIES } from "../contracts/species.js";
 import { env } from "./lib/env.js";
 
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024; // istemci ~1024px JPEG gönderir (Vercel gövde sınırı: 4,5 MB)
@@ -98,7 +98,6 @@ export const identifyRouter = createRouter({
         });
       }
 
-      const ALL_SPECIES = await getAllSpecies();
       const catalogue = ALL_SPECIES.map(
         (s) => `${s.id} | ${s.name} | ${s.latin}`,
       ).join("\n");

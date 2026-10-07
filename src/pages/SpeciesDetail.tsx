@@ -13,8 +13,7 @@ import {
   Camera,
   Heart,
 } from "lucide-react";
-import { CATEGORY_META } from "@contracts/species";
-import { useSpecies } from "@/providers/species";
+import { getSpeciesById, getAcademic, CATEGORY_META } from "@contracts/species";
 import { useLang } from "@/lib/i18n";
 import { trpc } from "@/providers/trpc";
 import { useAuth } from "@/hooks/useAuth";
@@ -77,13 +76,8 @@ export default function SpeciesDetail() {
   const navigate = useNavigate();
   const { t } = useLang();
   const { isAuthenticated } = useAuth();
-  const { getSpeciesById, isLoading: speciesLoading } = useSpecies();
   const species = id ? getSpeciesById(id) : undefined;
-  const { data: fullSpecies } = trpc.species.byId.useQuery(
-    { id: id! },
-    { enabled: !!id, staleTime: 5 * 60_000, retry: false },
-  );
-  const academic = fullSpecies?.academic ?? undefined;
+  const academic = id ? getAcademic(id) : undefined;
   const [commentText, setCommentText] = useState("");
 
   const { data: observations } = trpc.observations.list.useQuery(
@@ -104,9 +98,6 @@ export default function SpeciesDetail() {
     },
   });
 
-  if (speciesLoading && !species)
-    return <div className="mx-auto max-w-3xl px-4 py-24 text-center text-sm text-muted-foreground">Yükleniyor…</div>;
-
   if (!species)
     return (
       <div className="mx-auto max-w-3xl px-4 py-24 text-center">
@@ -123,14 +114,12 @@ export default function SpeciesDetail() {
     <div className="pb-24 lg:pb-12">
       {/* Başlık bandı — gerçek tür fotoğrafı */}
       <div className="relative overflow-hidden" style={{ backgroundColor: meta.color }}>
-        {species.photoUrl && (
-          <img
-            src={species.photoUrl}
-            alt={species.name}
-            onError={(e) => { e.currentTarget.style.display = "none"; }}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        )}
+        <img
+          src={`/species/${species.id}.jpg`}
+          alt={species.name}
+          onError={(e) => { e.currentTarget.style.display = "none"; }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-black/25" />
         <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-6 text-white sm:px-6">
           <button

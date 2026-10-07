@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { Camera, MapPin, CheckCircle2, Loader2, ImagePlus } from "lucide-react";
 import AtlasMap, { TURKEY_CENTER } from "@/components/map/AtlasMap";
-import { useSpecies } from "@/providers/species";
+import { ALL_SPECIES, DISTRICTS } from "@contracts/species";
 import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/lib/i18n";
 import { trpc } from "@/providers/trpc";
@@ -48,7 +48,6 @@ async function photoToBase64(file: File): Promise<{ base64: string; type: string
 
 export default function Contribute() {
   const { t } = useLang();
-  const { species: ALL_SPECIES, districts: DISTRICTS, byId: speciesById } = useSpecies();
   const { isAuthenticated, isLoading } = useAuth({ redirectOnUnauthenticated: true });
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -198,10 +197,10 @@ export default function Contribute() {
               />
             )}
             {/* Seçili türün örnek fotoğrafı */}
-            {speciesId && speciesId !== "diger" && speciesById.get(speciesId)?.photoUrl && (
+            {speciesId && speciesId !== "diger" && (
               <div className="mt-3 flex items-center gap-3 rounded-2xl border border-border/70 bg-accent/40 p-2.5">
                 <img
-                  src={speciesById.get(speciesId)?.photoUrl ?? undefined}
+                  src={`/species/${speciesId}.jpg`}
                   alt="Örnek tür fotoğrafı"
                   className="h-16 w-16 rounded-xl object-cover"
                   loading="lazy"

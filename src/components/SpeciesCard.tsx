@@ -12,15 +12,13 @@ export default function SpeciesCard({ species, index = 0 }: { species: Species; 
       style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
     >
       <div className="relative h-32 overflow-hidden" style={{ backgroundColor: meta.color }}>
-        {species.photoUrl && (
-          <img
-            src={species.photoUrl}
-            alt={species.name}
-            loading="lazy"
-            onError={(e) => { e.currentTarget.style.display = "none"; }}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        )}
+        <img
+          src={`/species/${species.id}.jpg`}
+          alt={species.name}
+          loading="lazy"
+          onError={(e) => { e.currentTarget.style.display = "none"; }}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
         <span className="absolute left-3 top-3 rounded-full bg-white/85 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-700 backdrop-blur dark:bg-black/50 dark:text-stone-200">
           {meta.label}
         </span>

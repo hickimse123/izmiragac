@@ -8,7 +8,6 @@ import {
   int,
   timestamp,
   index,
-  json,
 } from "drizzle-orm/mysql-core";
 
 /**
@@ -130,58 +129,3 @@ export const observationLikes = mysqlTable(
   }),
 );
 export type ObservationLike = typeof observationLikes.$inferSelect;
-
-/* ------------------------------------------------------------------ */
-/* Tür kataloğu (artık veritabanında; toplu içe aktarma için hazır)    */
-/* ------------------------------------------------------------------ */
-export const species = mysqlTable(
-  "species",
-  {
-    /** Doğal anahtar (slug): örn. "kizilcam". observations.speciesId bununla eşleşir. */
-    id: varchar("id", { length: 64 }).primaryKey(),
-    name: varchar("name", { length: 255 }).notNull(),
-    latin: varchar("latin", { length: 255 }).notNull(),
-    family: varchar("family", { length: 255 }).notNull().default(""),
-    category: mysqlEnum("category", ["ibreli", "yaprakli", "maki", "meyve"]).notNull(),
-    height: varchar("height", { length: 64 }).notNull().default(""),
-    bloom: varchar("bloom", { length: 128 }).notNull().default(""),
-    tag: varchar("tag", { length: 128 }),
-    description: text("description").notNull(),
-    /** string[] */
-    benefits: json("benefits").$type<string[]>().notNull(),
-    /** { district, note, coords: [lat, lng] }[] */
-    regions: json("regions")
-      .$type<{ district: string; note: string; coords: [number, number] }[]>()
-      .notNull(),
-    /** Akademik veri (IUCN, habitat, rakım, morfoloji, yayılış, kaynakça) */
-    academic: json("academic").$type<{
-      iucn: string;
-      habitat: string;
-      altitude: string;
-      morphology: string;
-      distribution: string;
-      references: string[];
-    } | null>(),
-    /** /species/<id>.jpg ya da harici fotoğraf URL'si; yoksa NULL (listede sona iner) */
-    photoUrl: text("photoUrl"),
-    photoCredit: varchar("photoCredit", { length: 255 }),
-    /** GBIF tür anahtarı (otomatik aktarmada aynı türü tekrar çekmemek için) */
-    gbifKey: int("gbifKey"),
-    /** Verinin kaynağı: seed | import | gbif | inaturalist ... */
-    source: varchar("source", { length: 32 }).notNull().default("seed"),
-    /** Küçük sayı = listede önce. Toplu içe aktarılanlar büyük değer alır. */
-    sortOrder: int("sortOrder").notNull().default(100000),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt")
-      .defaultNow()
-      .notNull()
-      .$onUpdate(() => new Date()),
-  },
-  (t) => ({
-    latinIdx: index("species_latin_idx").on(t.latin),
-    categoryIdx: index("species_category_idx").on(t.category),
-    gbifIdx: index("species_gbif_idx").on(t.gbifKey),
-  }),
-);
-export type SpeciesRow = typeof species.$inferSelect;
-export type InsertSpeciesRow = typeof species.$inferInsert;

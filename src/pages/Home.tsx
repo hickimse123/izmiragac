@@ -10,8 +10,7 @@ import {
   Users,
   MapPin,
 } from "lucide-react";
-import { HOTSPOTS, TURKEY_CENTER } from "@contracts/species";
-import { useSpecies } from "@/providers/species";
+import { ALL_SPECIES, HOTSPOTS, DISTRICTS, TURKEY_CENTER } from "@contracts/species";
 import { useLang } from "@/lib/i18n";
 import { trpc } from "@/providers/trpc";
 import SpeciesCard from "@/components/SpeciesCard";
@@ -25,8 +24,7 @@ export default function Home() {
   const [q, setQ] = useState("");
   const { data: stats } = trpc.stats.overview.useQuery();
 
-  const { species: ALL_SPECIES, districts: DISTRICTS, byId } = useSpecies();
-  const featured = FEATURED_IDS.map((id) => byId.get(id)!).filter(Boolean);
+  const featured = FEATURED_IDS.map((id) => ALL_SPECIES.find((s) => s.id === id)!).filter(Boolean);
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();

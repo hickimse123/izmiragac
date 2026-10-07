@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router";
 import { Search, SlidersHorizontal, X, PlusCircle } from "lucide-react";
-import { CATEGORY_META, type Category } from "@contracts/species";
-import { useSpecies } from "@/providers/species";
+import { ALL_SPECIES, CATEGORY_META, DISTRICTS, type Category } from "@contracts/species";
 import { useLang } from "@/lib/i18n";
 import SpeciesCard from "@/components/SpeciesCard";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,6 @@ import { cn } from "@/lib/utils";
 
 export default function Library() {
   const { t } = useLang();
-  const { species: ALL_SPECIES, districts: DISTRICTS } = useSpecies();
   const [params, setParams] = useSearchParams();
   const [q, setQ] = useState(params.get("q") ?? "");
   const [category, setCategory] = useState<Category | null>(null);
@@ -30,7 +28,7 @@ export default function Library() {
         sp.regions.some((r) => r.district.toLocaleLowerCase("tr").includes(s))
       );
     });
-  }, [ALL_SPECIES, q, category, district]);
+  }, [q, category, district]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 pt-8 sm:px-6 lg:pb-12">
