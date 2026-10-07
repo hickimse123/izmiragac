@@ -14,7 +14,8 @@ import {
   Pie,
   Legend,
 } from "recharts";
-import { ALL_SPECIES, CATEGORY_META, type Category } from "@contracts/species";
+import { CATEGORY_META, type Category } from "@contracts/species";
+import { useSpecies } from "@/providers/species";
 import { trpc } from "@/providers/trpc";
 import { useLang } from "@/lib/i18n";
 import { useTheme } from "next-themes";
@@ -22,6 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Stats() {
   const { t } = useLang();
+  const { species: ALL_SPECIES } = useSpecies();
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const { data: stats } = trpc.stats.overview.useQuery();
@@ -34,7 +36,7 @@ export default function Stats() {
       value: counts[c],
       color: CATEGORY_META[c].color,
     }));
-  }, [t]);
+  }, [t, ALL_SPECIES]);
 
   const regionData = useMemo(() => {
     const counts = new Map<string, number>();
@@ -48,7 +50,7 @@ export default function Stats() {
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value)
       .slice(0, 12);
-  }, []);
+  }, [ALL_SPECIES]);
 
   const topSpecies = useMemo(() => {
     return (stats?.bySpecies ?? [])

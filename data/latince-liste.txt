@@ -1,0 +1,4 @@
+# Satır başına bir Latince tür adı (# ile başlayanlar yorum)
+Pinus nigra
+Quercus cerris
+Acer campestre

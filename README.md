@@ -21,4 +21,7 @@ npm run dev              # http://localhost:3000
 | `npm run build` | Üretim derlemesi (`dist/`) |
 | `npm run check` | TypeScript tip kontrolü |
 | `npm run db:push` | Şemayı veritabanına uygula |
+| `npm run db:seed:species` | Tür kataloğunu veritabanına yükle |
+| `npm run species:import -- dosya.json` | JSON'dan toplu tür (+fotoğraf URL'si) ekle |
+| `npm run species:auto -- <bayraklar>` | GBIF + iNaturalist + Vikipedi'den otomatik tür/fotoğraf aktar |
 | `npm run db:seed` | Örnek veri ekle |

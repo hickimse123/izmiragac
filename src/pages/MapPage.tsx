@@ -3,12 +3,14 @@ import { useSearchParams } from "react-router";
 import { Search, Layers, X, Crosshair, ChevronDown, MapPin, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import AtlasMap from "@/components/map/AtlasMap";
-import { ALL_SPECIES, CATEGORY_META, PLACES, type Category } from "@contracts/species";
+import { CATEGORY_META, type Category } from "@contracts/species";
+import { useSpecies } from "@/providers/species";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export default function MapPage() {
   const { t } = useLang();
+  const { species: ALL_SPECIES, places: PLACES } = useSpecies();
   const [params] = useSearchParams();
   const [q, setQ] = useState("");
   const [speciesId, setSpeciesId] = useState<string | null>(params.get("tur"));
@@ -35,14 +37,14 @@ export default function MapPage() {
         sp.name.toLocaleLowerCase("tr").includes(s) ||
         sp.latin.toLocaleLowerCase("tr").includes(s),
     );
-  }, [q]);
+  }, [ALL_SPECIES, q]);
 
   /* İlçe / sıcak nokta sonuçları — normal harita uygulamaları gibi */
   const matchedPlaces = useMemo(() => {
     const s = q.trim().toLocaleLowerCase("tr");
     if (!s) return [];
     return PLACES.filter((p) => p.name.toLocaleLowerCase("tr").includes(s)).slice(0, 5);
-  }, [q]);
+  }, [PLACES, q]);
 
   const selected = speciesId ? ALL_SPECIES.find((s) => s.id === speciesId) : null;
 

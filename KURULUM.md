@@ -32,7 +32,8 @@ openssl rand -base64 48
 5. `.env` içindeki `DATABASE_URL` satırına yapıştır, sonra tabloları oluştur:
    ```bash
    npm run db:push
-   npm run db:seed      # opsiyonel: örnek gözlemler ve forum konuları
+   npm run db:seed:species   # ZORUNLU: tür kataloğunu (164 tür) veritabanına yükler
+   npm run db:seed           # opsiyonel: örnek gözlemler ve forum konuları (önce türler yüklenmeli)
    ```
    Bağlantı TLS ile otomatik kurulur (kodda ayarlı).
 
@@ -110,3 +111,47 @@ src/                → React ön yüz (Vite)
 vercel.json         → /api/* → fonksiyon, diğer her şey → SPA
 ```
 Yeni bir dosya `api/` altına eklenirse Vercel onu ayrı fonksiyon sayar; backend'e ait her şeyi `server/` altına koy.
+
+
+## Tür kataloğu veritabanında
+
+Türler artık kodda değil, `species` tablosunda tutulur (API: `trpc.species.list` / `trpc.species.byId`).
+Tablo boşsa harita, kütüphane vb. boş görünür — `npm run db:seed:species` ile doldurun.
+
+**Toplu tür + fotoğraf ekleme:** `data/ornek-turler.json` şablonuna uygun bir JSON hazırlayıp
+`npm run species:import -- data/yeni-turler.json` çalıştırın. Kayıt zaten varsa (aynı `id`) güncellenir.
+Fotoğraf için `photoUrl` alanına tam URL (https://…) ya da `/species/<id>.jpg` yazın;
+fotoğrafı olmayan türler listede otomatik olarak en sona iner.
+Otomatik tür çeken bir script yazarken `db/lib-species.ts` içindeki `upsertSpecies()` fonksiyonunu
+çağırmanız yeterlidir (doğrulama için `speciesInputSchema` da orada).
+Önbellek 60 saniyedir; içe aktarma sonrası yeni türler en geç 1 dakikada görünür.
+
+
+## Otomatik tür + fotoğraf ekleme (kolay yol)
+
+Ekstra araç gerekmez, her şey Vercel'de çalışır. Kaynaklar: GBIF (tür, Türkçe ad, yayılış), iNaturalist (lisanslı fotoğraf),
+Vikipedi (açıklama).
+
+1. **Bir kez:** Vercel → Settings → Environment Variables → `CRON_SECRET` adıyla rastgele uzun bir metin ekle → yeniden deploy.
+   Bundan sonra Vercel her gün 03:00'te (UTC) otomatik olarak **8 yeni fotoğraflı tür** ekler (`vercel.json` → `crons`).
+2. **İstediğin an hızlandırmak için:** Admin hesabıyla giriş yap → **Panelim** sayfasının üstündeki **"Yeni türleri çek"**
+   düğmesine tıkla (her tıklama ~30 sn sürer, 8'e kadar yeni tür ekler; istediğin kadar tıklayabilirsin).
+   Admin olmak için `ADMIN_EMAIL` ortam değişkenindeki e-postayla kayıt ol.
+3. Veritabanında zaten olan türler atlanır, yani tekrar tekrar çalıştırmak güvenlidir.
+
+Notlar:
+- Otomatik gelen türlerde boy, çiçeklenme, yararlar ve akademik veri **boş** gelir; açıklama Vikipedi'den alınır.
+  Kategori cinse göre tahmin edilir, gerekirse veritabanında düzeltin.
+- Yalnızca CC0 / CC BY / CC BY-SA lisanslı fotoğraflar alınır; fotoğraf sahibi `photoCredit` alanına yazılır.
+- Taranan cinsler `server/lib/species-auto.ts` içindeki `TREE_GENERA` dizisindedir.
+- Vercel Hobby planında cron günde en fazla 1 kez çalışır.
+
+### İleri düzey: bilgisayardan toplu aktarma (isteğe bağlı)
+```bash
+npm run species:auto -- --genus Quercus,Acer --limit 10 --dry-run      # deneme, yazmaz
+npm run species:auto -- --discover --min-records 30 --limit 200 --require-photo
+npm run species:auto -- --names data/latince-liste.txt
+npm run species:auto -- --fill-photos                                   # fotoğrafsız türlere fotoğraf bul
+npm run species:auto -- --genus Pinus --out data/pinus.json             # DB'ye yazmadan JSON üret
+```
+(`.env` içinde `DATABASE_URL` gerekir.)

@@ -2,12 +2,14 @@ import { desc, eq, sql } from "drizzle-orm";
 import { createRouter, publicQuery, authedQuery } from "./middleware.js";
 import { getDb } from "./queries/connection.js";
 import { observations, posts, comments, users } from "../db/schema.js";
-import { ALL_SPECIES, getSpeciesById } from "../contracts/species.js";
+import { getAllSpecies } from "./lib/species-store.js";
 import { storage } from "./lib/storage.js";
 
 export const statsRouter = createRouter({
   overview: publicQuery.query(async () => {
     const db = getDb();
+    const ALL_SPECIES = await getAllSpecies();
+    const nameById = new Map(ALL_SPECIES.map((s) => [s.id, s.name]));
     const [obsCount] = await db
       .select({ c: sql<number>`COUNT(*)` })
       .from(observations);
@@ -65,7 +67,7 @@ export const statsRouter = createRouter({
       },
       bySpecies: bySpecies.map((r) => ({
         speciesId: r.speciesId,
-        name: getSpeciesById(r.speciesId)?.name ?? r.speciesId,
+        name: nameById.get(r.speciesId) ?? r.speciesId,
         count: Number(r.c),
       })),
       byDistrict: byDistrict

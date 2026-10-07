@@ -1,0 +1,17 @@
+[
+  {
+    "id": "ornek-agac",
+    "name": "Örnek Ağaç",
+    "latin": "Exempli arbor",
+    "family": "Örnekgiller (Exemplaceae)",
+    "category": "yaprakli",
+    "height": "10–15 m",
+    "bloom": "Nisan – Mayıs",
+    "description": "Toplu içe aktarma şablonu. Gerçek tür eklerken bu alanları doldurun.",
+    "benefits": ["Birinci yarar", "İkinci yarar"],
+    "regions": [{ "district": "Ankara", "note": "Örnek yayılış", "coords": [39.93, 32.86] }],
+    "photoUrl": "https://example.org/foto.jpg",
+    "photoCredit": "Fotoğraf: Ad Soyad (CC BY-SA)",
+    "source": "import"
+  }
+]

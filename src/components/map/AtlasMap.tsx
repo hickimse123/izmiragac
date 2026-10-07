@@ -2,14 +2,9 @@ import { useEffect, useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import { Link } from "react-router";
-import {
-  ALL_SPECIES,
-  CATEGORY_META,
-  TURKEY_CENTER,
-  getSpeciesById,
-  type Category,
-} from "@contracts/species";
+import { CATEGORY_META, TURKEY_CENTER, type Category } from "@contracts/species";
 import { trpc } from "@/providers/trpc";
+import { useSpecies } from "@/providers/species";
 
 /* Kategori renginde yuvarlak ikon */
 function speciesIcon(category: Category, size = 26, pulse = false) {
@@ -68,6 +63,7 @@ function ClickPicker({ onPick }: { onPick: (lat: number, lng: number) => void })
 
 /* Topluluk gözlemi popup'ı (fotoğraf imzalı URL ile) */
 function ObservationPopup({ obs }: { obs: any }) {
+  const { getSpeciesById } = useSpecies();
   const species = getSpeciesById(obs.speciesId);
   const { data: photo } = trpc.observations.photoUrl.useQuery(
     { key: obs.photoKey },
@@ -129,6 +125,7 @@ export default function AtlasMap({  center = TURKEY_CENTER,
     { enabled: showCommunity },
   );
 
+  const { species: ALL_SPECIES } = useSpecies();
   const catalogueMarkers = useMemo(() => {
     if (!showCatalogue) return [];
     return ALL_SPECIES.filter(
@@ -142,7 +139,7 @@ export default function AtlasMap({  center = TURKEY_CENTER,
         region: r,
       })),
     );
-  }, [showCatalogue, speciesFilter, categoryFilter]);
+  }, [ALL_SPECIES, showCatalogue, speciesFilter, categoryFilter]);
 
   return (
     <MapContainer
